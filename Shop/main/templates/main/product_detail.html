@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center">{{ product.name }}</h2>
+        <p class="text-center">
+            <strong>Kategoriya:</strong>
+            <a href="{% url 'category_products' product.category.slug %}" class="text-decoration-none">
+                {{ product.category.name }}
+            </a>
+        </p>
+
+        <!-- Mahsulot rasmlari - Karusel -->
+        <div id="productCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in product.image_set.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 400px; object-fit: contain;">
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <!-- Izohlar -->
+        <h3>Izohlar</h3>
+        <div class="list-group mb-4">
+            {% for comment in product.comments.all %}
+                <div class="list-group-item">
+                    <strong>{{ comment.name }}</strong>: {{ comment.text }}
+                    <small class="text-muted">({{ comment.created_at|date:"d M Y, H:i" }})</small>
+                </div>
+            {% empty %}
+                <p class="text-muted">Hali izoh yo‘q.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Izoh qoldirish -->
+        <h3>Izoh qoldirish</h3>
+        <div class="card p-3 shadow-sm">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Yuborish</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

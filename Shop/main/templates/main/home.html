@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Barcha Mahsulotlar</h2>
+
+        <!-- Kategoriyalar -->
+        <div class="text-center mb-4">
+            {% for category in categories %}
+                <a href="{% url 'category_products' category.slug %}" class="btn btn-outline-primary m-1">
+                    {{ category.name }}
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- Mahsulotlar -->
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4 border-0">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none text-dark">
+                                    {{ product.name }}
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center text-muted">Hozircha mahsulotlar mavjud emas.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

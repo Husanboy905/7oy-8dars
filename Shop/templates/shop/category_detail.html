@@ -1,0 +1,32 @@
+{% for category in categories %}
+    <button class="category-btn" data-slug="{{ category.slug }}">{{ category.name }}</button>
+{% endfor %}
+
+<div id="product-list">
+    <!-- Tanlangan kategoriya mahsulotlari shu yerga yuklanadi -->
+</div>
+<h2>{{ category.name }} Kategoriyasidagi Mahsulotlar</h2>
+
+<div class="product-list">
+    {% for product in products %}
+        <div class="product">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+            <p>{{ product.name }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.querySelectorAll('.category-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const categorySlug = this.dataset.slug;
+
+            fetch(`/category/${categorySlug}/`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('product-list').innerHTML = html;
+            })
+            .catch(error => console.error('Xatolik yuz berdi:', error));
+        });
+    });
+</script>
