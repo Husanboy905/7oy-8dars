@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="order-container">
+        <h2 class="order-title">🛒 Buyurtma berish</h2>
+        <form method="post" class="order-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="order-button">✅ Buyurtma berish</button>
+        </form>
+    </div>
+
+    <style>
+        .order-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .order-form .form-group {
+            margin-bottom: 15px;
+        }
+        .order-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .order-button:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}

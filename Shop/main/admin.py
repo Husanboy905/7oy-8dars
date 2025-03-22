@@ -13,8 +13,24 @@ class ImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category')
+    list_display = ('name', 'category', 'price', 'discount', 'final_price')
     prepopulated_fields = {'slug': ('name',)}
 
 admin.site.register(Image)
 admin.site.register(Comment)
+
+
+from django.contrib import admin
+from .models import Order, OrderProduct, City, Delivery
+
+admin.site.register(City)
+admin.site.register(Delivery)
+
+class OrderProductInline(admin.TabularInline):
+    model = OrderProduct
+    extra = 1
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'total_price', 'created_at')
+    inlines = [OrderProductInline]

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahsulotlar</title>
+</head>
+<body>
+    <h1>Mahsulotlar Ro'yxati</h1>
+    {% for product in products %}
+        <div>
+            <h2>{{ product.name }}</h2>
+            <p>Asl narx: <del>${{ product.price }}</del></p>
+            {% if product.discount > 0 %}
+                <p>Chegirma: {{ product.discount }}%</p>
+                <p>Chegirmadan keyin: <strong>${{ product.final_price }}</strong></p>
+            {% else %}
+                <p>Narx: <strong>${{ product.price }}</strong></p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</body>
+</html>
