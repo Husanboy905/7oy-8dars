@@ -61,3 +61,25 @@ def create_order(request):
         form = OrderForm()
 
     return render(request, 'main/create_order.html', {'form': form})
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Cart, CartItem
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('cart_detail')
+def cart_detail(request):
+    cart = Cart.objects.get(user=request.user)
+    items = cart.items.all()
+    return render(request, 'cart/cart_detail.html', {'cart': cart, 'items': items})

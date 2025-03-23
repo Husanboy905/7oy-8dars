@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🛒 Savat</h2>
+
+    {% if items %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Mahsulot</th>
+                        <th>Miqdor</th>
+                        <th>Narx</th>
+                        <th>Jami</th>
+                        <th>O‘chirish</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="align-middle">{{ item.product.name }}</td>
+                        <td class="align-middle">{{ item.quantity }}</td>
+                        <td class="align-middle">${{ item.product.final_price }}</td>
+                        <td class="align-middle">${{ item.total_price }}</td>
+                        <td class="align-middle">
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-danger btn-sm">
+                                ❌ O‘chirish
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end">
+            <h4><strong>Jami summa: ${{ total_price }}</strong></h4>
+            <a href="{% url 'checkout' %}" class="btn btn-success btn-lg mt-2">✅ Buyurtma berish</a>
+        </div>
+
+    {% else %}
+        <div class="text-center mt-5">
+            <h3 class="text-muted">😞 Savatingiz bo‘sh</h3>
+            <p>Mahsulot tanlash uchun <a href="{% url 'home' %}" class="text-decoration-none fw-bold">asosiy sahifaga</a> qayting.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
